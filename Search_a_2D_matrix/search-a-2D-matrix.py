@@ -17,6 +17,7 @@ class Solution:
                 else:
                     # if target is there save that row, to loop through it later
                     row_cache = row
+                    break
             # if target is less than start then there is no possibility that value is there
             # Because matrix has each value in ascending order
             if(target < row_start):
