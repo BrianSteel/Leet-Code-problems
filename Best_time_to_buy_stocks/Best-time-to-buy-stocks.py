@@ -16,25 +16,20 @@ class Solution:
             # so we assign current value as minimum and any max prices diff we found earlier is saved in case they turn out to be highest
             if min_price > p:
                 # it could also that max diff is already found before the new min so it is saved before the min_price and max_price is changed
-                print(max_price, min_price, p)
                 profits.append(max_price - min_price)
                 min_price = p
                 # maximum price is set to default because currently this max is the max price before the new min price 
                 # as we only care about the max after the min
                 max_price = -1
-                print(max_price, min_price)
             # this condition does the job of finding out the new maxs
             # min_price < p cant be used to check for max as everything will be greater than that minimum and correct max cant be found
             # eg for [7,1,5,3,6,4], the 1 will min and the last item 4 will be used for finding minimum which is wrong (ignore this if not needed)
             # It would accurate if we only check for values that is greater than the current max value
             elif min_price < p:
-                print(max_price, p)
                 max_price = p
-                print(max_price)
         
         # use the final obtained max_price to find the diff
         profits.append(max_price - min_price)
-        print(profits)
         # return the maximum value among them
         return max(profits)
 
@@ -44,21 +39,75 @@ class Solution:
         # so add the diffs if number increase from the previous one and that's it as you can buy and unlimited times
         length = len(prices)
         max_price = 0
+        # loops from 0 to length -1 (because if length is 4 the final value in the loop should be for index 3 as index 4 does not exist)
         for p in range(length-1):
+            # check for last index because if length is 4, last index will be 3 and prices[3+1] which is prices[4] does not exist
             if(prices[p+1] and prices[p] < prices[p+1]):
                 max_price += prices[p+1] - prices[p]
         return max_price    
 
-    def maxProfitIII(self, prices: List[int]) -> int:#[7,1,5,3,6,4]
+    # account for consecutive increases
+    # account for decrease
+    # account for random increase or decrease 
+    # CAN NOT account for consecutive increases along with random increases (prefers to skip to the consecutive increase)
+    # eg - [1,2,4,2,5,7,2,4,9,0] ANS: 5-1 + 7-5 + 9-2
+    def wrong_maxProfitIII(self, prices: List[int]) -> int:#[7,1,5,3,6,4]
         profits = []
+        still_increasing = False
         length = len(prices)
+        if(length == 0): return 0
         for p in range(length-1):
             if(prices[p+1] and prices[p] < prices[p+1]):
-                profits.append(prices[p+1] - prices[p])
-        first_max = max(profits)
-        profits.remove(first_max)
-        second_max = max(profits)
-        return first_max + second_max;
+                if still_increasing and (not (p+1 == length-1) or len(profits) > 1):
+                    profits_last_index = len(profits)-1
+                    profits[profits_last_index] = profits[profits_last_index] + (prices[p+1] - prices[p]) # 1, 2, 3
+                else:
+                    profits.append(prices[p+1] - prices[p])
 
-answ = Solution()
-print(answ.maxProfit([7,1,5,3,6,4])) # [3,3,5,0,0,3,1,4]
+                # if prices[p+2] and prices[p+1] < prices[p+2]: why does not it work?? # prices[p+2] does not work in python
+                if (length-1) >= (p+2) and prices[p+1] < prices[p+2]: # 1,3,5
+                    still_increasing = True
+                else: still_increasing = False
+
+
+        profits_length = len(profits)
+
+        if(profits_length == 0): return 0
+        first_max = max(profits)
+        if profits_length == 1: 
+            return first_max
+        else: 
+            profits.remove(first_max)
+            second_max = max(profits)
+            return first_max + second_max
+
+
+def test_solution(cases: List[List[int]], solutions: List[int]):
+    solution_index = 0
+    for case in cases: 
+        answ = Solution()
+        print(answ.maxProfitIII(case), answ.maxProfitIII(case) == solutions[solution_index]) # [3,3,5,0,0,3,1,4]
+        solution_index += 1
+
+cases = [
+    [3,3,5,0,0,3,1,4],
+    [1,2,3], 
+    [1,2,3,4,5],
+    [2,5,8], 
+    [2,5,8,11,14],
+    [2, 10, 12], 
+    [2,10,12,14,15],
+    [2,10], 
+    [2,10,12,14,15,3,5,1],
+    [2,1], 
+    [10], 
+    [7,6,4,3,1], 
+    [],
+    [6,1,3,2,4,7],
+    [1,2,4,2,5,7,2,4,9,0]
+] 
+solutions = [6, 2, 4, 6, 12, 10, 13, 8, 15, 0, 0, 0, 0, 7, 13]
+
+
+test_solution(cases, solutions)
+
