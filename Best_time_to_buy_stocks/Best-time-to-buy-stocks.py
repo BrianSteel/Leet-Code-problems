@@ -25,7 +25,7 @@ class Solution:
             # min_price < p cant be used to check for max as everything will be greater than that minimum and correct max cant be found
             # eg for [7,1,5,3,6,4], the 1 will min and the last item 4 will be used for finding minimum which is wrong (ignore this if not needed)
             # It would accurate if we only check for values that is greater than the current max value
-            elif min_price < p:
+            elif max_price < p:
                 max_price = p
         
         # use the final obtained max_price to find the diff
@@ -81,6 +81,9 @@ class Solution:
             second_max = max(profits)
             return first_max + second_max
 
+    def maxProfitIII():
+
+
 
 def test_solution(cases: List[List[int]], solutions: List[int]):
     solution_index = 0
@@ -103,11 +106,10 @@ cases = [
     [10], 
     [7,6,4,3,1], 
     [],
-    [6,1,3,2,4,7],
-    [1,2,4,2,5,7,2,4,9,0]
+    [6,1,3,2,4,7], 
+    [1,2,4,2,5,7,2,4,9,0] 
 ] 
 solutions = [6, 2, 4, 6, 12, 10, 13, 8, 15, 0, 0, 0, 0, 7, 13]
 
 
 test_solution(cases, solutions)
-
