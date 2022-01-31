@@ -1,4 +1,8 @@
+from cmath import inf
+from tokenize import Number
 from typing import List
+
+from numpy import Inf
 
 
 class Solution:
@@ -81,35 +85,59 @@ class Solution:
             second_max = max(profits)
             return first_max + second_max
 
-    def maxProfitIII():
+    # def maxProfitIII():
+    def maxProfitCooldown(self, prices:List[int]) -> int: # 1 2 4 0 2
+        
+        cache = {}
+        def depthFirstSearch(i:int, decision:str):
+            if len(prices) == 0: return 0
+            if (i, decision) in cache:
+                return cache[(i, decision)]
+            
+            cooldown = depthFirstSearch(i+1, 'b')
+            if decision == 'b':
+                profit = depthFirstSearch(i + 1, 's') - prices[i]
+            else:
+                profit = depthFirstSearch(i + 2, 'b') + prices[i]
+            
+            cache[(i, decision)] = max(profit, cooldown)
+            return cache[(i, decision)]
+
+        return depthFirstSearch(0, 'b')
+            
+
+ans = Solution()
+print(ans.maxProfitCooldown([1,2,4,0,2]))
+
+        
 
 
 
-def test_solution(cases: List[List[int]], solutions: List[int]):
-    solution_index = 0
-    for case in cases: 
-        answ = Solution()
-        print(answ.maxProfitIII(case), answ.maxProfitIII(case) == solutions[solution_index]) # [3,3,5,0,0,3,1,4]
-        solution_index += 1
+# def test_solution(cases: List[List[int]], solutions: List[int]):
+#     solution_index = 0
+#     for case in cases: 
+#         answ = Solution()
+#         print(answ.maxProfitIII(case), answ.maxProfitIII(case) == solutions[solution_index]) # [3,3,5,0,0,3,1,4]
+#         solution_index += 1
 
-cases = [
-    [3,3,5,0,0,3,1,4],
-    [1,2,3], 
-    [1,2,3,4,5],
-    [2,5,8], 
-    [2,5,8,11,14],
-    [2, 10, 12], 
-    [2,10,12,14,15],
-    [2,10], 
-    [2,10,12,14,15,3,5,1],
-    [2,1], 
-    [10], 
-    [7,6,4,3,1], 
-    [],
-    [6,1,3,2,4,7], 
-    [1,2,4,2,5,7,2,4,9,0] 
-] 
-solutions = [6, 2, 4, 6, 12, 10, 13, 8, 15, 0, 0, 0, 0, 7, 13]
+# cases = [
+#     [3,3,5,0,0,3,1,4],
+#     [1,2,3], 
+#     [1,2,3,4,5],
+#     [2,5,8], 
+#     [2,5,8,11,14],
+#     [2, 10, 12], 
+#     [2,10,12,14,15],
+#     [2,10], 
+#     [2,10,12,14,15,3,5,1],
+#     [2,1], 
+#     [10], 
+#     [7,6,4,3,1], 
+#     [],
+#     [6,1,3,2,4,7], 
+#     [1,2,4,2,5,7,2,4,9,0] 
+# ] 
+# solutions = [6, 2, 4, 6, 12, 10, 13, 8, 15, 0, 0, 0, 0, 7, 13]
 
 
-test_solution(cases, solutions)
+# test_solution(cases, solutions)
