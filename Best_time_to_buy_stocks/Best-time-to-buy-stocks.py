@@ -90,7 +90,7 @@ class Solution:
         
         cache = {}
         def depthFirstSearch(i:int, decision:str):
-            if len(prices) == 0: return 0
+            if len(prices) <= i: return 0
             if (i, decision) in cache:
                 return cache[(i, decision)]
             
