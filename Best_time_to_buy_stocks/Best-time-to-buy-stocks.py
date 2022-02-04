@@ -1,9 +1,4 @@
-from cmath import inf
-from tokenize import Number
 from typing import List
-
-from numpy import Inf
-
 
 class Solution:
     def maxProfit(self, prices: List[int]) -> int:
