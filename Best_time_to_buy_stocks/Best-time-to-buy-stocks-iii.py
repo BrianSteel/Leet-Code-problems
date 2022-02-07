@@ -1,34 +1,35 @@
 from cmath import inf
 from typing import List
+from black import T
 from tabulate import tabulate
 
 class Solution:
     def maxProfit(self, prices: List[int], print_data=False) -> int:
         if(len(prices) == 0): return 0
 
-        fb, fs = -inf, -inf
-        sb, ss = 0, 0
+        fb, sb = inf, inf
+        fs, ss = 0, 0
         print_fb, print_fs, print_sb, print_ss = [], [], [], []
 
         for price in prices:
             old_fb = fb
-            fb_prices = -price
-            fb = max(fb, -price) # 
+            fb_prices = price
+            fb = min(fb, price) # 
             print_fb.append([price, old_fb, fb_prices, fb])
 
             old_fs = fs
-            fs_prices = fb+price
-            fs = max(fs, fb+price) # 
+            fs_prices = price-fb
+            fs = max(fs, price-fb) # 
             print_fs.append([price, old_fs, fs_prices, fs])
 
             old_sb = sb
-            sb_prices = fs-price
-            sb = max(sb, fs-price) # 
+            sb_prices = price-fs
+            sb = min(sb, price-fs) # 
             print_sb.append([price, old_sb, sb_prices, sb])
 
             old_ss = ss
-            ss_prices = sb+price
-            ss = max(ss, sb+price) # 
+            ss_prices = price-sb
+            ss = max(ss, price-sb) # 
             print_ss.append([price, old_ss, ss_prices, ss])
 
         if(print_data):
@@ -45,8 +46,8 @@ class Solution:
         
             # https://www.tutorialcup.com/leetcode-solutions/best-time-to-buy-and-sell-stock-iii-leetcode-solution.htm
 
-ans = Solution()
-print(ans.maxProfit([1,2,3,4,5], True))
+# ans = Solution()
+# print(ans.maxProfit([1,2,3,4,5], True))
 
 
 # def test_solution(cases: List[List[int]], solutions: List[int]):
