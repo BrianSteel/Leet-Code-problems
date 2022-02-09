@@ -11,25 +11,30 @@ class Solution:
         fs, ss = 0, 0
         print_fb, print_fs, print_sb, print_ss = [], [], [], []
 
+        # loop over the prices to check each price eg - 3,3,5,0,0,3,1,4
         for price in prices:
             old_fb = fb
             fb_prices = price
+            # lowest 1st buying price is found at the right point (at index 4 for the eg)
             fb = min(fb, price) # 
             print_fb.append([price, old_fb, fb_prices, fb])
 
             old_fs = fs
             fs_prices = price-fb
-            fs = max(fs, price-fb) # 
+            # 1st highest selling price is found at the right point (at index 5 for the eg)
+            fs = max(fs, price-fb) 
             print_fs.append([price, old_fs, fs_prices, fs])
 
             old_sb = sb
             sb_prices = price-fs
-            sb = min(sb, price-fs) # 
+            # second lowest buying price is found at the right point (at index 6 for the eg)
+            sb = min(sb, price-fs) 
             print_sb.append([price, old_sb, sb_prices, sb])
 
             old_ss = ss
             ss_prices = price-sb
-            ss = max(ss, price-sb) # 
+            # second highest selling price is found at the right point (at index 7 for the eg)
+            ss = max(ss, price-sb) 
             print_ss.append([price, old_ss, ss_prices, ss])
 
         if(print_data):
@@ -44,10 +49,8 @@ class Solution:
 
         return ss
         
-            # https://www.tutorialcup.com/leetcode-solutions/best-time-to-buy-and-sell-stock-iii-leetcode-solution.htm
-
 # ans = Solution()
-# print(ans.maxProfit([1,2,3,4,5], True))
+# print(ans.maxProfit([3,3,5,0,0,3,1,4], True))
 
 
 # def test_solution(cases: List[List[int]], solutions: List[int]):
