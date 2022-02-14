@@ -9,7 +9,7 @@ var findMinArrowShots = function(points) {
     if(length === 1) return 1;
 
     // Numerical sorting of the points according to end position of balloon
-    // I think both position sorting works // check in leetcode
+    // sorting based on the first value wont work see python example
     points.sort((a,b) => {
         return a[1]-b[1]; 
     })
