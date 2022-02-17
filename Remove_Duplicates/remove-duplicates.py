@@ -1,8 +1,5 @@
 from typing import List
 
-from numpy import true_divide
-
-
 class Solution:
     def removeDuplicate(self, list:List[int]):
         length = len(list)
@@ -20,10 +17,30 @@ class Solution:
                 return True
         # else return false (no duplicates)
         return False
+
+    def removeDuplicateHashMap(self, List:List[int]):
+        length = len(List)
+        loop_length = length - 1
+
+        # if length is zero or 1 there can be no duplicates
+        if loop_length == 0 or length == 0: return False
+
+        hashMap = {}
+        for val in List:
+            # if hashMap[val] == 1: // this will cause a key map error as val is not in hashMap yet 
+            # if hashMap[val]: // this will also cause a key map error as val is not in hashMap yet
+            if val in hashMap: # use python syntax not js like syntax
+                print(hashMap)
+                return True
+            hashMap[val] = 1
+
+        return False
+            
             
 
 ans = Solution()
-print(ans.removeDuplicate([3,3]))
+# print(ans.removeDuplicate([3,3]))
+print(ans.removeDuplicateHashMap([3,3]))
 
 # https://leetcode.com/problems/contains-duplicate-ii/
 # https://leetcode.com/problems/contains-duplicate-iii/
