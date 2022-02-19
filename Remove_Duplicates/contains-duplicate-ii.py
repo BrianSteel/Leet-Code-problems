@@ -27,6 +27,7 @@ class Solution:
             key = List[index]
             if key in hashMap and (index - hashMap[key]) <= k: 
                 return True
+            # here previous same numbers will be replaced by next same number until (index - hashMap[key]) <= k is not satisfied or for loop ends
             hashMap[key] = index
 
         return False
