@@ -2,7 +2,7 @@ from typing import List
 
 
 class Solution:
-    def containsDuplicates(self, List:List[int], k:int):
+    def containsNearbyDuplicate(self, List:List[int], k:int):
         length = len(List) # dont do len(List) - 1, range will take care of it
 
         hashMap = {}
